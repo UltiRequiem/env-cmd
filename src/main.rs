@@ -1,4 +1,4 @@
-use dotenvy::dotenv_iter;
+use dotenvy::{dotenv_iter, Error};
 use std::process;
 
 fn main() {
@@ -10,9 +10,9 @@ fn main() {
         }
     };
 
-    for item in items {
-        let (key, val) = item.unwrap();
+    let items: Vec<Result<(String, String), Error>> = items.collect();
 
-        println!("{}={}", key, val);
-    }
+    let items = items.dedup();
+
+    println!("{:?}", items);
 }
